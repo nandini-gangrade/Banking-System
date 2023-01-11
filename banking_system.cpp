@@ -4,49 +4,73 @@
 #include<vector>
 #include<map>
 using namespace std;
+
 #define MIN_BALANCE 500
+
+// Exception class for insufficient funds
 class InsufficientFunds{};
 class Account
 {
 private:
- long accountNumber;
- string firstName;
- string lastName;
- float balance;
- static long NextAccountNumber;
+ long accountNumber; // Account number
+ string firstName;   // First name of account holder
+ string lastName;    // Last name of account holder
+ float balance;      // Current account balance
+ static long NextAccountNumber; // Next account number to be assigned
 public:
+ //default constructor 
  Account(){}
+ //parametrized constructor
  Account(string fname,string lname,float balance);
+ //getter functions
  long getAccNo(){return accountNumber;}
  string getFirstName(){return firstName;}
  string getLastName(){return lastName;}
  float getBalance(){return balance;}
  
+ // Deposit money into the account
  void Deposit(float amount);
+ // Withdraw money from the account
  void Withdraw(float amount);
+ // Set the last account number used
  static void setLastAccountNumber(long accountNumber);
+ // Get the last account number used
  static long getLastAccountNumber();
+ 
+ // Friend functions to handle file input/output
  friend ofstream & operator<<(ofstream &ofs,Account &acc);
  friend ifstream & operator>>(ifstream &ifs,Account &acc);
+ // Friend function to handle standard output
  friend ostream & operator<<(ostream &os,Account &acc);
 };
+
 long Account::NextAccountNumber=0;
+
 class Bank
 {
 private:
+ // Map of account numbers to Account objects
  map<long,Account> accounts;
 public:
+ //default constructor
  Bank();
+ // Create a new account
  Account OpenAccount(string fname,string lname,float balance);
+ // Get the balance of an existing account
  Account BalanceEnquiry(long accountNumber);
+ // Deposit money into an existing account
  Account Deposit(long accountNumber,float amount);
+ // Withdraw money from an existing account
  Account Withdraw(long accountNumber,float amount);
+ // Close an existing account
  void CloseAccount(long accountNumber);
+ // Show all existing accounts
  void ShowAllAccounts();
  ~Bank();
 };
 int main()
 {
+ // Destructor
  Bank b;
  Account acc;
  
